@@ -14,7 +14,9 @@ import mensajeria.PaqueteAtacar;
 import mensajeria.PaqueteBatalla;
 import mensajeria.PaqueteDeMovimientos;
 import mensajeria.PaqueteDePersonajes;
+import mensajeria.PaqueteDeUsuarios;
 import mensajeria.PaqueteFinalizarBatalla;
+import mensajeria.PaqueteMensaje;
 import mensajeria.PaqueteMovimiento;
 import mensajeria.PaquetePersonaje;
 import mensajeria.PaqueteUsuario;
@@ -32,6 +34,10 @@ public class EscuchaCliente extends Thread {
 	private PaqueteBatalla paqueteBatalla;
 	private PaqueteAtacar paqueteAtacar;
 	private PaqueteFinalizarBatalla paqueteFinalizarBatalla;
+	
+	private PaqueteMensaje paqueteMensaje;
+	private PaqueteUsuario paqueteUsuario;
+	private PaqueteDeUsuarios paqueteDeUsuarios;
 	
 	private PaqueteDeMovimientos paqueteDeMovimiento;
 	private PaqueteDePersonajes paqueteDePersonajes;
@@ -101,13 +107,42 @@ public class EscuchaCliente extends Thread {
 						paquetePersonaje.setComando(Comando.INICIOSESION);
 						paquetePersonaje.setMensaje(Paquete.msjExito);
 						idPersonaje = paquetePersonaje.getId();
+
+						String username = paqueteUsuario.getUsername();
+						Servidor.getUsuariosConectados().add(username);
+						int index = Servidor.usuariosConectados.indexOf(username);
+						Servidor.mapaDeConexiones.put(username, Servidor.socketsConectados.get(index));
+						paqueteUsuario.setUsuariosConectados(Servidor.usuariosConectados);
 						
 						salida.writeObject(gson.toJson(paquetePersonaje));
+						
+						// Aviso a todos que alguien se conecto
+						synchronized(Servidor.atencionConexiones){
+							Servidor.atencionConexiones.notify();
+						}
 						
 					} else {
 						paqueteSv.setMensaje(Paquete.msjFracaso);
 						salida.writeObject(gson.toJson(paqueteSv));
+						
+						// wtf
+						
+						synchronized (this) {
+							//this.wait(200);
+						}
+
+						entrada.close();
+						salida.close();
+						
+						Servidor.socketsConectados.remove(socket);
+						Servidor.getClientesConectados().remove(this);
+						
+						socket.close();
+						this.stop();
+						
+						return;
 					}
+					
 					break;
 
 				case Comando.SALIR:
@@ -224,7 +259,36 @@ public class EscuchaCliente extends Thread {
 					}
 					
 					break;
-				
+					
+				case Comando.CONVERSAR:
+					paqueteMensaje = (PaqueteMensaje) (gson.fromJson(cadenaLeida, PaqueteMensaje.class));
+					paqueteMensaje.setComando(Comando.CONVERSAR);
+
+					Socket s1 = Servidor.mapaDeConexiones.get(paqueteMensaje.getReceptor());
+					
+					for (EscuchaCliente conectado : Servidor.getClientesConectados()) {
+						if(conectado.getSocket() == s1)	{
+							conectado.getSalida().writeObject(gson.toJson(paqueteMensaje));	
+						}
+					}
+
+					break;
+					
+				/*case Comando.CHATPUBLICO:
+					paqueteMensaje = (PaqueteMensaje) (gson.fromJson(cadenaLeida, PaqueteMensaje.class));
+					paqueteMensaje.setComando(Comando.CHATPUBLICO);
+					
+					Socket s2 = Servidor.mapaDeConexiones.get(paqueteMensaje.getUserEmisor());
+
+					for (EscuchaCliente conectado : Servidor.getClientesConectados()) {
+						if(conectado.getSocket() != s2)	{
+							conectado.getSalida().writeObject(gson.toJson(paqueteMensaje));
+						}
+					}
+
+					break;
+
+				*/
 				default:
 					break;
 				}
