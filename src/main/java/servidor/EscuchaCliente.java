@@ -85,7 +85,9 @@ Por lo tanto, se desean eliminar todos los switch/case que están relacionados c
 
 		} catch (IOException | ClassNotFoundException e) {
 			Servidor.log.append("Error de conexion: " + e.getMessage() + System.lineSeparator());
-			e.printStackTrace();
+			
+			Servidor.log.append(getPaquetePersonaje().getNombre() + " desconectado");
+			Servidor.getClientesConectados().remove(this);
 		} catch (NoSuchMethodException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

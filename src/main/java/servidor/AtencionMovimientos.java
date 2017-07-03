@@ -17,7 +17,7 @@ public class AtencionMovimientos extends Thread {
 	private final Gson gson = new Gson();
 
 	public AtencionMovimientos() {
-		
+		this.setName("AtencionMovimientos");
 	}
 
 	public void run() {
