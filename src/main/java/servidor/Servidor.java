@@ -45,6 +45,10 @@ public class Servidor extends Thread {
 	
 	public static AtencionConexiones atencionConexiones = new AtencionConexiones();
 	public static AtencionMovimientos atencionMovimientos = new AtencionMovimientos();;
+	
+	public Servidor(){
+		this.setName("Server Main Thread");
+	}
 
 	public static void main(String[] args) {
 		cargarInterfaz();	
@@ -76,11 +80,12 @@ public class Servidor extends Thread {
 		botonIniciar.setBounds(220, ALTO - 70, 100, 30);
 		botonIniciar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				server = new Thread(new Servidor());
+				server = new Thread(new Servidor(),"Server");
 				server.start();
 				botonIniciar.setEnabled(false);
 				botonDetener.setEnabled(true);
 			}
+
 		});
 
 		ventana.add(botonIniciar);
@@ -90,7 +95,6 @@ public class Servidor extends Thread {
 		botonDetener.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					server.stop();
 					for (EscuchaCliente cliente : clientesConectados) {
 						cliente.getSalida().close();
 						cliente.getEntrada().close();
@@ -104,7 +108,7 @@ public class Servidor extends Thread {
 				if(conexionDB != null)
 					conexionDB.close();
 				botonDetener.setEnabled(false);
-				botonIniciar.setEnabled(true);
+				log.append("Servidor detenido." + System.lineSeparator());
 			}
 		});
 		botonDetener.setEnabled(false);
@@ -115,7 +119,6 @@ public class Servidor extends Thread {
 			public void windowClosing(WindowEvent evt) {
 				if (serverSocket != null) {
 					try {
-						server.stop();
 						for (EscuchaCliente cliente : clientesConectados) {
 							cliente.getSalida().close();
 							cliente.getEntrada().close();
@@ -146,6 +149,7 @@ public class Servidor extends Thread {
 			log.append("Iniciando el servidor..." + System.lineSeparator());
 			serverSocket = new ServerSocket(PUERTO);
 			log.append("Servidor esperando conexiones..." + System.lineSeparator());
+			
 			String ipRemota;
 			
 			atencionConexiones.start();
@@ -163,9 +167,8 @@ public class Servidor extends Thread {
 				atencion.start();
 				clientesConectados.add(atencion);
 			}
-		} catch (Exception e) {
+		} catch (IOException e) {
 			log.append("Fallo la conexión." + System.lineSeparator());
-			e.printStackTrace();
 		}
 	}
 
