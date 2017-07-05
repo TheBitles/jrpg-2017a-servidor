@@ -4,7 +4,7 @@ import java.io.IOException;
 import mensajeria.PaquetePersonaje;
 import servidor.Servidor;
 
-public class ComandoCreacionPJ extends ComandoServidor {
+public class ComandoCrearPersonaje extends ComandoServidor {
 
 	@Override
 	public void procesar() {
