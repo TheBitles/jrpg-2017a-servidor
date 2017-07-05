@@ -24,15 +24,10 @@ import mensajeria.PaqueteMovimiento;
 import mensajeria.PaquetePersonaje;
 
 public class Servidor extends Thread {
-
 	private static ArrayList<EscuchaCliente> clientesConectados = new ArrayList<>();
 
 	private static Map<Integer, PaqueteMovimiento> ubicacionPersonajes = new HashMap<>();
 	public static Map<Integer, PaquetePersonaje> personajesConectados = new HashMap<>();
-	
-	public static ArrayList<String> usuariosConectados = new ArrayList<String>();
-	public static ArrayList<Socket> socketsConectados = new ArrayList<Socket>();
-	public static Map<String, Socket> mapaDeConexiones = new HashMap<>();
 	
 	public static AtencionConexiones atencionConexiones = new AtencionConexiones();
 	public static AtencionMovimientos atencionMovimientos = new AtencionMovimientos();
@@ -156,8 +151,6 @@ public class Servidor extends Thread {
 			
 			while (true) {
 				Socket cliente = serverSocket.accept();
-				socketsConectados.add(cliente);
-
 				ipRemota = cliente.getInetAddress().getHostAddress();
 				log.append(ipRemota + " se ha conectado" + System.lineSeparator());
 
@@ -194,12 +187,5 @@ public class Servidor extends Thread {
 		return conexionDB;
 	}
 
-	public static ArrayList<String> getUsuariosConectados() {
-		return usuariosConectados;
-	}
-
-	public static ArrayList<Socket> getSocketsConectados() {
-		return socketsConectados;
-	}
 }
 
