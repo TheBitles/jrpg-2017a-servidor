@@ -26,10 +26,17 @@ import mensajeria.PaquetePersonaje;
 public class Servidor extends Thread {
 
 	private static ArrayList<EscuchaCliente> clientesConectados = new ArrayList<>();
-	
-	private static Map<Integer, PaqueteMovimiento> ubicacionPersonajes = new HashMap<>();
-	private static Map<Integer, PaquetePersonaje> personajesConectados = new HashMap<>();
 
+	private static Map<Integer, PaqueteMovimiento> ubicacionPersonajes = new HashMap<>();
+	public static Map<Integer, PaquetePersonaje> personajesConectados = new HashMap<>();
+	
+	public static ArrayList<String> usuariosConectados = new ArrayList<String>();
+	public static ArrayList<Socket> socketsConectados = new ArrayList<Socket>();
+	public static Map<String, Socket> mapaDeConexiones = new HashMap<>();
+	
+	public static AtencionConexiones atencionConexiones = new AtencionConexiones();
+	public static AtencionMovimientos atencionMovimientos = new AtencionMovimientos();
+	
 	private static Thread server;
 	
 	private static ServerSocket serverSocket;
@@ -42,9 +49,6 @@ public class Servidor extends Thread {
 	private final static int ANCHO_LOG = ANCHO - 25;
 
 	public static JTextArea log;
-	
-	public static AtencionConexiones atencionConexiones = new AtencionConexiones();
-	public static AtencionMovimientos atencionMovimientos = new AtencionMovimientos();;
 
 	public static void main(String[] args) {
 		cargarInterfaz();	
@@ -139,7 +143,6 @@ public class Servidor extends Thread {
 
 	public void run() {
 		try {
-			
 			conexionDB = new Conector();
 			conexionDB.connect();
 			
@@ -150,9 +153,11 @@ public class Servidor extends Thread {
 			
 			atencionConexiones.start();
 			atencionMovimientos.start();
-
+			
 			while (true) {
 				Socket cliente = serverSocket.accept();
+				socketsConectados.add(cliente);
+
 				ipRemota = cliente.getInetAddress().getHostAddress();
 				log.append(ipRemota + " se ha conectado" + System.lineSeparator());
 
@@ -172,6 +177,10 @@ public class Servidor extends Thread {
 	public static ArrayList<EscuchaCliente> getClientesConectados() {
 		return clientesConectados;
 	}
+	
+	public static void setClientesConectados(ArrayList<EscuchaCliente> clientesConectados) {
+		Servidor.clientesConectados = clientesConectados;
+	}
 
 	public static Map<Integer, PaqueteMovimiento> getUbicacionPersonajes() {
 		return ubicacionPersonajes;
@@ -184,4 +193,13 @@ public class Servidor extends Thread {
 	public static Conector getConector() {
 		return conexionDB;
 	}
+
+	public static ArrayList<String> getUsuariosConectados() {
+		return usuariosConectados;
+	}
+
+	public static ArrayList<Socket> getSocketsConectados() {
+		return socketsConectados;
+	}
 }
+

@@ -37,7 +37,10 @@ public class AtencionConexiones extends Thread {
 							
 							PaqueteDePersonajes pdp = (PaqueteDePersonajes) new PaqueteDePersonajes(Servidor.getPersonajesConectados()).clone();
 							pdp.setComando(Comando.CONEXION);
-							conectado.getSalida().writeObject(gson.toJson(pdp));	
+							
+							synchronized (conectado) {
+								conectado.getSalida().writeObject(gson.toJson(pdp));
+							}
 							
 							
 						}
