@@ -48,7 +48,7 @@ public class ComandoIntercambio extends ComandoServidor {
 						int j = 0;
 						for(Intercambiable intercambiable2 : intercambiables2){
 							
-							if(Intercambiable.sonIntercambiables(intercambiable1,  intercambiable2)){
+							if(Intercambiable.intercambiar(intercambiable1,  intercambiable2)){
 								
 								for (EscuchaCliente clienteConectado : Servidor.getClientesConectados()) {
 								
