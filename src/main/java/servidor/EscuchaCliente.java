@@ -12,6 +12,7 @@ import mensajeria.PaqueteBatalla;
 import mensajeria.PaqueteDeMovimientos;
 import mensajeria.PaqueteDePersonajes;
 import mensajeria.PaqueteFinalizarBatalla;
+import mensajeria.PaqueteIntercambiable;
 import mensajeria.PaqueteMovimiento;
 import mensajeria.PaquetePersonaje;
 import mensajeria.PaqueteUsuario;
@@ -19,11 +20,11 @@ import mensajeriaServer.ComandoServidor;
 
 public class EscuchaCliente extends Thread {
 
-	public final Socket socket;
-	public final ObjectInputStream entrada;
-	public final ObjectOutputStream salida;
-	public int idPersonaje;
-	public final Gson gson = new Gson();
+	private final Socket socket;
+	private final ObjectInputStream entrada;
+	private final ObjectOutputStream salida;
+	private int idPersonaje;
+	private final Gson gson = new Gson();
 
 	private PaquetePersonaje paquetePersonaje;
 	private PaqueteMovimiento paqueteMovimiento;
@@ -33,6 +34,7 @@ public class EscuchaCliente extends Thread {
 	private PaqueteUsuario paqueteUsuario;
 	private PaqueteDeMovimientos paqueteDeMovimiento;
 	private PaqueteDePersonajes paqueteDePersonajes;
+	private PaqueteIntercambiable paqueteIntercambiable;
 
 	
 	public EscuchaCliente(String ip, Socket socket, ObjectInputStream entrada, ObjectOutputStream salida) {
@@ -71,7 +73,7 @@ public class EscuchaCliente extends Thread {
 			for (EscuchaCliente clienteConectado : Servidor.getClientesConectados()) {
 				paqueteDePersonajes = new PaqueteDePersonajes(Servidor.getPersonajesConectados());
 				paqueteDePersonajes.setComando(Comando.CONEXION);
-				clienteConectado.salida.writeObject(gson.toJson(paqueteDePersonajes, PaqueteDePersonajes.class));
+				clienteConectado.getSalida().writeObject(gson.toJson(paqueteDePersonajes, PaqueteDePersonajes.class));
 			}
 
 			Servidor.log.append(paquete.getIp() + " se ha desconectado." + System.lineSeparator());
@@ -138,6 +140,10 @@ public class EscuchaCliente extends Thread {
 	public PaqueteAtacar getPaqueteAtacar() {
 		return paqueteAtacar;
 	}
+	
+	public PaqueteIntercambiable getPaqueteIntercambiable() {
+		return paqueteIntercambiable;
+	}
 
 		
 	/* Setters */
@@ -176,6 +182,10 @@ public class EscuchaCliente extends Thread {
 	
 	public void setPaqueteAtacar(PaqueteAtacar paqueteAtacar) {
 		this.paqueteAtacar = paqueteAtacar;
+	}
+	
+	public void setPaqueteIntercambiable(PaqueteIntercambiable paqueteIntercambiable) {
+		this.paqueteIntercambiable = paqueteIntercambiable;
 	}
 
 }

@@ -16,7 +16,7 @@ public class ComandoFinalizarBatalla extends ComandoServidor {
 		for(EscuchaCliente conectado : Servidor.getClientesConectados()) {
 			if(conectado.getIdPersonaje() == escuchador.getPaqueteFinalizarBatalla().getIdEnemigo()) {
 				try {
-					conectado.getSalida().writeObject(escuchador.gson.toJson(escuchador.getPaqueteFinalizarBatalla()));
+					conectado.getSalida().writeObject(gson.toJson(escuchador.getPaqueteFinalizarBatalla()));
 				} catch (IOException e) {
 					Servidor.log.append("Error al finalizar batalla" + System.lineSeparator());
 					e.printStackTrace();

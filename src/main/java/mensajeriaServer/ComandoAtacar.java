@@ -13,7 +13,7 @@ public class ComandoAtacar extends ComandoServidor {
 		for(EscuchaCliente conectado : Servidor.getClientesConectados()) {
 			if(conectado.getIdPersonaje() == escuchador.getPaqueteAtacar().getIdEnemigo()) {
 				try {
-					conectado.getSalida().writeObject(escuchador.gson.toJson(escuchador.getPaqueteAtacar()));
+					conectado.getSalida().writeObject(gson.toJson(escuchador.getPaqueteAtacar()));
 				} catch (IOException e) {
 					Servidor.log.append("Error al atacar" + System.lineSeparator());
 					e.printStackTrace();

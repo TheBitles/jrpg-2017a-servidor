@@ -19,7 +19,7 @@ public class ComandoRegistro extends ComandoServidor {
 			// Si el usuario se pudo registrar le envio un msj de exito
 			if (Servidor.getConector().registrarUsuario(escuchador.getPaqueteUsuario())) {
 				paqueteSv.setMensaje(Paquete.msjExito);
-				escuchador.salida.writeObject(gson.toJson(paqueteSv));
+				escuchador.getSalida().writeObject(gson.toJson(paqueteSv));
 			// Si el usuario no se pudo registrar le envio un msj de fracaso
 			} else {
 				paqueteSv.setMensaje(Paquete.msjFracaso);

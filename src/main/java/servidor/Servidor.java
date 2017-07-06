@@ -20,6 +20,8 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import mensajeria.PaqueteIntercambiable;
+import mensajeria.PaqueteIntercambio;
 import mensajeria.PaqueteMovimiento;
 import mensajeria.PaquetePersonaje;
 
@@ -28,6 +30,8 @@ public class Servidor extends Thread {
 
 	private static Map<Integer, PaqueteMovimiento> ubicacionPersonajes = new HashMap<>();
 	public static Map<Integer, PaquetePersonaje> personajesConectados = new HashMap<>();
+	
+	public static Map<Integer, PaqueteIntercambiable> intercambiables = new HashMap<>();
 	
 	public static AtencionConexiones atencionConexiones = new AtencionConexiones();
 	public static AtencionMovimientos atencionMovimientos = new AtencionMovimientos();
@@ -187,5 +191,13 @@ public class Servidor extends Thread {
 		return conexionDB;
 	}
 
+	public static Map<Integer, PaqueteIntercambiable> getIntercambiables() {
+		return intercambiables;
+	}
+	
+	public static void setIntercambiables(Map<Integer, PaqueteIntercambiable> intercambiables2) {
+		intercambiables = intercambiables2;
+	}
+	
 }
 

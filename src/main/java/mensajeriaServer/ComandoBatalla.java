@@ -11,7 +11,7 @@ public class ComandoBatalla extends ComandoServidor {
 	@Override
 	public void procesar() {
 		// Le reenvio al id del personaje batallado que quieren pelear
-		escuchador.setPaqueteBatalla((mensajeria.PaqueteBatalla) escuchador.gson.fromJson(objetoLeido, PaqueteBatalla.class));
+		escuchador.setPaqueteBatalla((mensajeria.PaqueteBatalla) gson.fromJson(objetoLeido, PaqueteBatalla.class));
 		Servidor.log.append(escuchador.getPaqueteBatalla().getId() + " quiere batallar con " + escuchador.getPaqueteBatalla().getIdEnemigo() + System.lineSeparator());
 		
 		//seteo estado de batalla
@@ -19,7 +19,7 @@ public class ComandoBatalla extends ComandoServidor {
 		Servidor.getPersonajesConectados().get(escuchador.getPaqueteBatalla().getIdEnemigo()).setEstado(Estado.estadoBatalla);
 		escuchador.getPaqueteBatalla().setMiTurno(true);
 		try {
-			escuchador.salida.writeObject(escuchador.gson.toJson(escuchador.getPaqueteBatalla()));
+			escuchador.getSalida().writeObject(gson.toJson(escuchador.getPaqueteBatalla()));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -31,7 +31,7 @@ public class ComandoBatalla extends ComandoServidor {
 				escuchador.getPaqueteBatalla().setIdEnemigo(aux);
 				escuchador.getPaqueteBatalla().setMiTurno(false);
 				try {
-					conectado.getSalida().writeObject(escuchador.gson.toJson(escuchador.getPaqueteBatalla()));
+					conectado.getSalida().writeObject(gson.toJson(escuchador.getPaqueteBatalla()));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

@@ -37,7 +37,7 @@ public class ComandoInicioSesion extends ComandoServidor {
 			paqueteSv.setMensaje(Paquete.msjFracaso);
 
 			try {
-				escuchador.salida.writeObject(gson.toJson(paqueteSv));
+				escuchador.getSalida().writeObject(gson.toJson(paqueteSv));
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
