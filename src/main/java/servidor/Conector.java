@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import dominio.Item;
+import dominio.Personaje;
 import mensajeria.PaquetePersonaje;
 import mensajeria.PaqueteUsuario;
 
@@ -208,8 +209,6 @@ public class Conector {
 			stActualizarPersonaje.setInt(8, paquetePersonaje.getId());
 
 			stActualizarPersonaje.executeUpdate();
-			
-			actualizarItems(paquetePersonaje);
 
 			Servidor.log.append("El personaje " + paquetePersonaje.getNombre() + " se ha actualizado con éxito."  + System.lineSeparator());;
 		} catch (SQLException e) {
@@ -292,7 +291,7 @@ public class Conector {
 		return new PaqueteUsuario();
 	}
 
-	private void actualizarItems(PaquetePersonaje personaje) {
+	public void actualizarItems(final Integer personajeId, ArrayList<Item> items) {
 		try {
 			
 			String updateMochila = "UPDATE mochila SET "
@@ -301,18 +300,13 @@ public class Conector {
 					+ "where idMochila = ?";
 			PreparedStatement stMochila = connect.prepareStatement(updateMochila);
 
-			stMochila.setInt(21, personaje.getId());
-
-//			for (int i = 1; i <= 20; i++) {
-//				stMochila.setInt(i, -1);
-//			}
+			stMochila.setInt(21, personajeId);
 			
-			ArrayList<Item> Inventario = personaje.getInventario();
-			for (Item item : Inventario) {
+			for (Item item : items) {
 				stMochila.setInt(item.getId(), 1);
 			}
 			
-			Servidor.log.append("personaje " + personaje.getNombre() + " mochila actualizada: " + stMochila.executeUpdate() + System.lineSeparator());
+			Servidor.log.append("personaje " + personajeId + " mochila actualizada: " + stMochila.executeUpdate() + System.lineSeparator());
 
 		} catch (SQLException e) {
 			Servidor.log.append("Error actualizando mochila");
@@ -327,7 +321,7 @@ public class Conector {
 			stMochila.setInt(1, personaje.getId());
 			ResultSet rsMochila = stMochila.executeQuery();
 
-			for(int i = 1; i <= 12; i++ ) {
+			for(int i = 1; i <= Personaje.MAX_ITEMS; i++ ) {
 				int tieneItem = rsMochila.getInt("item" + i);
 
 				PreparedStatement stItem = connect.prepareStatement("SELECT * FROM item WHERE idItem = ?");

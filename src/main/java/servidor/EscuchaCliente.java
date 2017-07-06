@@ -13,6 +13,7 @@ import mensajeria.PaqueteDeMovimientos;
 import mensajeria.PaqueteDePersonajes;
 import mensajeria.PaqueteFinalizarBatalla;
 import mensajeria.PaqueteIntercambiable;
+import mensajeria.PaqueteInventario;
 import mensajeria.PaqueteMovimiento;
 import mensajeria.PaquetePersonaje;
 import mensajeria.PaqueteUsuario;
@@ -35,6 +36,8 @@ public class EscuchaCliente extends Thread {
 	private PaqueteDeMovimientos paqueteDeMovimiento;
 	private PaqueteDePersonajes paqueteDePersonajes;
 	private PaqueteIntercambiable paqueteIntercambiable;
+	private PaqueteInventario paqueteInventario;
+	
 
 	
 	public EscuchaCliente(String ip, Socket socket, ObjectInputStream entrada, ObjectOutputStream salida) {
@@ -144,6 +147,10 @@ public class EscuchaCliente extends Thread {
 	public PaqueteIntercambiable getPaqueteIntercambiable() {
 		return paqueteIntercambiable;
 	}
+	
+	public PaqueteInventario getPaqueteInventario() {
+		return paqueteInventario;
+	}
 
 		
 	/* Setters */
@@ -188,5 +195,9 @@ public class EscuchaCliente extends Thread {
 		this.paqueteIntercambiable = paqueteIntercambiable;
 	}
 
+	public void setPaqueteInventario(PaqueteInventario paqueteInventario) {
+		this.paqueteInventario = paqueteInventario;
+	}
+	
 }
 
