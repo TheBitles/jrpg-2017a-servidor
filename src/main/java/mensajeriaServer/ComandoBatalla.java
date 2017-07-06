@@ -13,7 +13,7 @@ public class ComandoBatalla extends ComandoServidor {
 		// Le reenvio al id del personaje batallado que quieren pelear
 		escuchador.setPaqueteBatalla((mensajeria.PaqueteBatalla) gson.fromJson(objetoLeido, PaqueteBatalla.class));
 		Servidor.log.append(escuchador.getPaqueteBatalla().getId() + " quiere batallar con " + escuchador.getPaqueteBatalla().getIdEnemigo() + System.lineSeparator());
-		
+
 		//seteo estado de batalla
 		Servidor.getPersonajesConectados().get(escuchador.getPaqueteBatalla().getId()).setEstado(Estado.estadoBatalla);
 		Servidor.getPersonajesConectados().get(escuchador.getPaqueteBatalla().getIdEnemigo()).setEstado(Estado.estadoBatalla);
@@ -22,7 +22,7 @@ public class ComandoBatalla extends ComandoServidor {
 			escuchador.getSalida().writeObject(gson.toJson(escuchador.getPaqueteBatalla()));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Servidor.log.append("Error de conexion PaqueteBatalla");
 		}
 		for(EscuchaCliente conectado : Servidor.getClientesConectados()){
 			if(conectado.getIdPersonaje() == escuchador.getPaqueteBatalla().getIdEnemigo()){
@@ -39,7 +39,7 @@ public class ComandoBatalla extends ComandoServidor {
 				break;
 			}
 		}
-		
+
 		synchronized(Servidor.atencionConexiones){
 			Servidor.atencionConexiones.notify();
 		}

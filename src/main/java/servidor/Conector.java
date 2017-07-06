@@ -62,7 +62,6 @@ public class Conector {
 			}
 		} catch (SQLException ex) {
 			Servidor.log.append("Eror al intentar registrar el usuario " + user.getUsername() + System.lineSeparator());
-			System.err.println(ex.getMessage());
 			return false;
 		}
 
@@ -293,7 +292,7 @@ public class Conector {
 
 	public void actualizarItems(final Integer personajeId, ArrayList<Item> items) {
 		try {
-			
+
 			String updateMochila = "UPDATE mochila SET "
 					+ "item1 = ?, item2 = ?, item3 = ?, item4 = ?, item5 = ?, item6 = ?, item7 = ?, item8 = ?, item9 = ?, item10 = ?, "
 					+ "item11 = ?, item12 = ?, item13 = ?, item14 = ?, item15 = ?, item16 = ?, item17 = ?, item18 = ?, item19 = ?, item20 = ? "
@@ -301,17 +300,15 @@ public class Conector {
 			PreparedStatement stMochila = connect.prepareStatement(updateMochila);
 
 			stMochila.setInt(21, personajeId);
-			
+
 			for (Item item : items) {
 				stMochila.setInt(item.getId(), 1);
 			}
-			
+
 			Servidor.log.append("personaje " + personajeId + " mochila actualizada: " + stMochila.executeUpdate() + System.lineSeparator());
 
 		} catch (SQLException e) {
 			Servidor.log.append("Error actualizando mochila");
-			System.err.println("Error actualizando mochila che");
-			e.printStackTrace();
 		}
 	}
 
@@ -327,12 +324,12 @@ public class Conector {
 				PreparedStatement stItem = connect.prepareStatement("SELECT * FROM item WHERE idItem = ?");
 				stItem.setInt(1, i);
 				ResultSet rsItem = stItem.executeQuery();
-				
+
 				String nombre = rsItem.getString("nombre");
 				Item item = new Item(i, nombre, rsItem.getInt("bonoAtaque"), rsItem.getInt("bonoDefensa"), rsItem.getInt("bonoMagia"), rsItem.getInt("bonoSalud"), rsItem.getInt("bonoEnergia"));
- 
+
 				personaje.agregarATodos(item);
-                
+
                 if (tieneItem == 1) {
                 	personaje.agregarItem(item);
                 }
