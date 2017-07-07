@@ -30,14 +30,14 @@ public class Servidor extends Thread {
 
 	private static Map<Integer, PaqueteMovimiento> ubicacionPersonajes = new HashMap<>();
 	public static Map<Integer, PaquetePersonaje> personajesConectados = new HashMap<>();
-	
+
 	public static Map<Integer, PaqueteIntercambiable> intercambiables = new HashMap<>();
-	
+
 	public static AtencionConexiones atencionConexiones = new AtencionConexiones();
 	public static AtencionMovimientos atencionMovimientos = new AtencionMovimientos();
-	
+
 	private static Thread server;
-	
+
 	private static ServerSocket serverSocket;
 	private static Conector conexionDB;
 	private final int PUERTO = 9999;
@@ -50,7 +50,7 @@ public class Servidor extends Thread {
 	public static JTextArea log;
 
 	public static void main(String[] args) {
-		cargarInterfaz();	
+		cargarInterfaz();
 	}
 
 	private static void cargarInterfaz() {
@@ -127,7 +127,6 @@ public class Servidor extends Thread {
 						serverSocket.close();
 					} catch (IOException e) {
 						log.append("Fallo al intentar detener el servidor." + System.lineSeparator());
-						e.printStackTrace();
 						System.exit(1);
 					}
 				}
@@ -144,15 +143,15 @@ public class Servidor extends Thread {
 		try {
 			conexionDB = new Conector();
 			conexionDB.connect();
-			
+
 			log.append("Iniciando el servidor..." + System.lineSeparator());
 			serverSocket = new ServerSocket(PUERTO);
 			log.append("Servidor esperando conexiones..." + System.lineSeparator());
 			String ipRemota;
-			
+
 			atencionConexiones.start();
 			atencionMovimientos.start();
-			
+
 			while (true) {
 				Socket cliente = serverSocket.accept();
 				ipRemota = cliente.getInetAddress().getHostAddress();
@@ -167,14 +166,13 @@ public class Servidor extends Thread {
 			}
 		} catch (Exception e) {
 			log.append("Fallo la conexión." + System.lineSeparator());
-			e.printStackTrace();
 		}
 	}
 
 	public static ArrayList<EscuchaCliente> getClientesConectados() {
 		return clientesConectados;
 	}
-	
+
 	public static void setClientesConectados(ArrayList<EscuchaCliente> clientesConectados) {
 		Servidor.clientesConectados = clientesConectados;
 	}
@@ -182,7 +180,7 @@ public class Servidor extends Thread {
 	public static Map<Integer, PaqueteMovimiento> getUbicacionPersonajes() {
 		return ubicacionPersonajes;
 	}
-	
+
 	public static Map<Integer, PaquetePersonaje> getPersonajesConectados() {
 		return personajesConectados;
 	}
@@ -194,10 +192,9 @@ public class Servidor extends Thread {
 	public static Map<Integer, PaqueteIntercambiable> getIntercambiables() {
 		return intercambiables;
 	}
-	
+
 	public static void setIntercambiables(Map<Integer, PaqueteIntercambiable> intercambiables2) {
 		intercambiables = intercambiables2;
 	}
-	
-}
 
+}

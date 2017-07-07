@@ -21,8 +21,7 @@ public class ComandoBatalla extends ComandoServidor {
 		try {
 			escuchador.getSalida().writeObject(gson.toJson(escuchador.getPaqueteBatalla()));
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			Servidor.log.append("Error de conexion PaqueteBatalla");
+			Servidor.log.append("Error de conexion PaqueteBatalla" + System.lineSeparator());
 		}
 		for(EscuchaCliente conectado : Servidor.getClientesConectados()){
 			if(conectado.getIdPersonaje() == escuchador.getPaqueteBatalla().getIdEnemigo()){
@@ -33,8 +32,7 @@ public class ComandoBatalla extends ComandoServidor {
 				try {
 					conectado.getSalida().writeObject(gson.toJson(escuchador.getPaqueteBatalla()));
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					Servidor.log.append("Error de conexion PaqueteBatalla" + System.lineSeparator());
 				}
 				break;
 			}

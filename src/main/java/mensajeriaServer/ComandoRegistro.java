@@ -12,7 +12,7 @@ public class ComandoRegistro extends ComandoServidor {
 	public void procesar() {
 		Paquete paqueteSv = new Paquete(null, 0);
 		paqueteSv.setComando(Comando.REGISTRO);
-		
+
 		escuchador.setPaqueteUsuario((PaqueteUsuario) (gson.fromJson(objetoLeido, PaqueteUsuario.class)).clone());
 
 		try {
@@ -26,7 +26,7 @@ public class ComandoRegistro extends ComandoServidor {
 				escuchador.getSalida().writeObject(gson.toJson(paqueteSv));
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			Servidor.log.append("Error de conexion - ComandoRegistro" + System.lineSeparator());
 		}
 	}
 

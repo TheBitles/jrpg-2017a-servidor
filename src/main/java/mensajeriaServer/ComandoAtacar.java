@@ -16,7 +16,6 @@ public class ComandoAtacar extends ComandoServidor {
 					conectado.getSalida().writeObject(gson.toJson(escuchador.getPaqueteAtacar()));
 				} catch (IOException e) {
 					Servidor.log.append("Error al atacar" + System.lineSeparator());
-					e.printStackTrace();
 				}
 			}
 		}

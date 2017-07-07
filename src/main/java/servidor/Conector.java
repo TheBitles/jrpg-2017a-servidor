@@ -120,9 +120,7 @@ public class Conector {
 			return false;
 
 		} catch (SQLException e) {
-			Servidor.log.append(
-					"Error al intentar crear el personaje " + paquetePersonaje.getNombre() + System.lineSeparator());
-			e.printStackTrace();
+			Servidor.log.append("Error al intentar crear el personaje " + paquetePersonaje.getNombre() + System.lineSeparator());
 			return false;
 		}
 
@@ -159,7 +157,6 @@ public class Conector {
 
 		} catch (SQLException e) {
 			Servidor.log.append("Error al registrar el inventario de " + idInventarioMochila + System.lineSeparator());
-			e.printStackTrace();
 			return false;
 		}
 	}
@@ -186,7 +183,6 @@ public class Conector {
 
 		} catch (SQLException e) {
 			Servidor.log.append("El usuario " + user.getUsername() + " fallo al iniciar sesión." + System.lineSeparator());
-			e.printStackTrace();
 			return false;
 		}
 
@@ -212,7 +208,6 @@ public class Conector {
 			Servidor.log.append("El personaje " + paquetePersonaje.getNombre() + " se ha actualizado con éxito."  + System.lineSeparator());;
 		} catch (SQLException e) {
 			Servidor.log.append("Fallo al intentar actualizar el personaje " + paquetePersonaje.getNombre()  + System.lineSeparator());
-			e.printStackTrace();
 		}
 
 
@@ -284,7 +279,6 @@ public class Conector {
 		} catch (SQLException e) {
 			Servidor.log.append("Fallo al intentar recuperar el usuario " + usuario + System.lineSeparator());
 			Servidor.log.append(e.getMessage() + System.lineSeparator());
-			e.printStackTrace();
 		}
 
 		return new PaqueteUsuario();
@@ -335,7 +329,7 @@ public class Conector {
                 }
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Servidor.log.append("Error al cargar items" + System.lineSeparator());
 		}
 	}
 

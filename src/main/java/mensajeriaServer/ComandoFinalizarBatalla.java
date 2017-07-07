@@ -9,7 +9,7 @@ public class ComandoFinalizarBatalla extends ComandoServidor {
 
 	@Override
 	public void procesar(){
-		
+
 		escuchador.setPaqueteFinalizarBatalla((mensajeria.PaqueteFinalizarBatalla) gson.fromJson(objetoLeido, mensajeria.PaqueteFinalizarBatalla.class));
 		Servidor.getPersonajesConectados().get(escuchador.getPaqueteFinalizarBatalla().getId()).setEstado(Estado.estadoJuego);
 		Servidor.getPersonajesConectados().get(escuchador.getPaqueteFinalizarBatalla().getIdEnemigo()).setEstado(Estado.estadoJuego);
@@ -19,11 +19,10 @@ public class ComandoFinalizarBatalla extends ComandoServidor {
 					conectado.getSalida().writeObject(gson.toJson(escuchador.getPaqueteFinalizarBatalla()));
 				} catch (IOException e) {
 					Servidor.log.append("Error al finalizar batalla" + System.lineSeparator());
-					e.printStackTrace();
 				}
 			}
 		}
-		
+
 		synchronized(Servidor.atencionConexiones){
 			Servidor.atencionConexiones.notify();
 		}

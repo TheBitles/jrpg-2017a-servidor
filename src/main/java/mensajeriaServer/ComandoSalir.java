@@ -14,7 +14,7 @@ public class ComandoSalir extends ComandoServidor {
 			escuchador.getSalida().close();
 			escuchador.getSocket().close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			Servidor.log.append("Error al terminar la aplicacion" + System.lineSeparator());
 		}
 
 		Servidor.getClientesConectados().remove(this);

@@ -37,9 +37,9 @@ public class EscuchaCliente extends Thread {
 	private PaqueteDePersonajes paqueteDePersonajes;
 	private PaqueteIntercambiable paqueteIntercambiable;
 	private PaqueteInventario paqueteInventario;
-	
 
-	
+
+
 	public EscuchaCliente(String ip, Socket socket, ObjectInputStream entrada, ObjectOutputStream salida) {
 		this.socket = socket;
 		this.entrada = entrada;
@@ -52,16 +52,16 @@ public class EscuchaCliente extends Thread {
 			Paquete paquete;
 			Paquete paqueteSv = new Paquete(null, 0);
 			paqueteUsuario = new PaqueteUsuario();
-			
+
 			String objetoLeido = (String) entrada.readObject();
 			ComandoServidor comando;
-			
+
 			while (!((paquete = gson.fromJson(objetoLeido, Paquete.class)).getComando() == Comando.DESCONECTAR)){
 				comando = (ComandoServidor) paquete.getByReflection("mensajeriaServer");
 				comando.setObjetoLeido(objetoLeido);
 				comando.setEscuchador(this);
 				comando.procesar();
-				
+
 				objetoLeido = (String) entrada.readObject();
 			}
 
@@ -83,13 +83,10 @@ public class EscuchaCliente extends Thread {
 
 		} catch (IOException | ClassNotFoundException e) {
 			Servidor.log.append("Error de conexion: " + e.getMessage() + System.lineSeparator());
-			e.printStackTrace();
 		} catch (SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Servidor.log.append("Error de conexion: " + e.getMessage() + System.lineSeparator());
 		} catch (IllegalArgumentException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Servidor.log.append("Error de conexion: " + e.getMessage() + System.lineSeparator());
 		}
 	}
 
@@ -105,29 +102,29 @@ public class EscuchaCliente extends Thread {
 		return salida;
 	}
 
-	
+
 	/* Getters */
-	
+
 	public PaqueteUsuario getPaqueteUsuario() {
 		return paqueteUsuario;
 	}
-	
+
 	public int getIdPersonaje() {
 		return idPersonaje;
 	}
-	
+
 	public PaquetePersonaje getPaquetePersonaje(){
 		return paquetePersonaje;
 	}
-	
+
 	public PaqueteDePersonajes getPaqueteDePersonajes() {
 		return paqueteDePersonajes;
 	}
-	
+
 	public PaqueteMovimiento getPaqueteMovimiento() {
 		return paqueteMovimiento;
 	}
-	
+
 	public PaqueteDeMovimientos getPaqueteDeMovimiento() {
 		return paqueteDeMovimiento;
 	}
@@ -139,38 +136,38 @@ public class EscuchaCliente extends Thread {
 	public PaqueteFinalizarBatalla getPaqueteFinalizarBatalla() {
 		return paqueteFinalizarBatalla;
 	}
-	
+
 	public PaqueteAtacar getPaqueteAtacar() {
 		return paqueteAtacar;
 	}
-	
+
 	public PaqueteIntercambiable getPaqueteIntercambiable() {
 		return paqueteIntercambiable;
 	}
-	
+
 	public PaqueteInventario getPaqueteInventario() {
 		return paqueteInventario;
 	}
 
-		
+
 	/* Setters */
-	
+
 	public void setPaqueteUsuario(PaqueteUsuario paqueteUsuario) {
 		this.paqueteUsuario = paqueteUsuario;
 	}
-	
+
 	public void setIdPersonaje(int idPersonaje) {
 		this.idPersonaje = idPersonaje;
 	}
-	
+
 	public void setPaquetePersonaje(PaquetePersonaje paquetePersonaje) {
 		this.paquetePersonaje = paquetePersonaje;
 	}
-	
+
 	public void setPaqueteDePersonajes(PaqueteDePersonajes paqueteDePersonajes) {
 		this.paqueteDePersonajes = paqueteDePersonajes;
 	}
-	
+
 	public void setPaqueteMovimiento(PaqueteMovimiento paqueteMovimiento) {
 		this.paqueteMovimiento = paqueteMovimiento;
 	}
@@ -182,15 +179,15 @@ public class EscuchaCliente extends Thread {
 	public void setPaqueteBatalla(PaqueteBatalla paqueteBatalla) {
 		this.paqueteBatalla = paqueteBatalla;
 	}
-	
+
 	public void setPaqueteFinalizarBatalla(PaqueteFinalizarBatalla paqueteFinalizarBatalla) {
 		this.paqueteFinalizarBatalla = paqueteFinalizarBatalla;
 	}
-	
+
 	public void setPaqueteAtacar(PaqueteAtacar paqueteAtacar) {
 		this.paqueteAtacar = paqueteAtacar;
 	}
-	
+
 	public void setPaqueteIntercambiable(PaqueteIntercambiable paqueteIntercambiable) {
 		this.paqueteIntercambiable = paqueteIntercambiable;
 	}
@@ -198,6 +195,5 @@ public class EscuchaCliente extends Thread {
 	public void setPaqueteInventario(PaqueteInventario paqueteInventario) {
 		this.paqueteInventario = paqueteInventario;
 	}
-	
-}
 
+}

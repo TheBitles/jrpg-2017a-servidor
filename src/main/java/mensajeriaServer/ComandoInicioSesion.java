@@ -30,7 +30,7 @@ public class ComandoInicioSesion extends ComandoServidor {
 			try {
 				escuchador.getSalida().writeObject(gson.toJson(paquetePersonaje));
 			} catch (IOException e) {
-				e.printStackTrace();
+				Servidor.log.append("Error de conexion - ComandoInicioSesion" + System.lineSeparator());
 			}
 
 		} else {
@@ -39,7 +39,7 @@ public class ComandoInicioSesion extends ComandoServidor {
 			try {
 				escuchador.getSalida().writeObject(gson.toJson(paqueteSv));
 			} catch (IOException e) {
-				Servidor.log.append("Error de conexion - ComandoInicioSesion");
+				Servidor.log.append("Error de conexion - ComandoInicioSesion" + System.lineSeparator());
 			}
 		}
 	}
