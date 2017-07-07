@@ -299,7 +299,7 @@ public class Conector {
 				stMochila.setInt(item.getId(), 1);
 			}
 
-			Servidor.log.append("personaje " + personajeId + " mochila actualizada: " + stMochila.executeUpdate() + System.lineSeparator());
+			stMochila.executeUpdate();
 
 		} catch (SQLException e) {
 			Servidor.log.append("Error actualizando mochila");

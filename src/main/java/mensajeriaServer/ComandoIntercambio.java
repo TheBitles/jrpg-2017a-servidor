@@ -33,8 +33,6 @@ public class ComandoIntercambio extends ComandoServidor {
 			intercambiables1 = intercambiableEntry1.getValue().getIntercambiables();
 			usuariosRevisados.add(usuario1Id);
 
-			// Servidor.log.append(intercambiableEntry1.getKey() + " - " + intercambiable.getDemanda().getId() + " - " + intercambiable.getOferta().getId() + " // ");
-
 			for(Map.Entry<Integer, PaqueteIntercambiable> intercambiableEntry2 : intercambiables.entrySet()) {
 
 				usuario2Id = intercambiableEntry2.getKey();

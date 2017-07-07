@@ -23,8 +23,6 @@ public class ComandoConversar extends ComandoServidor {
 		// wtf: enviar el id para evitar esta negrada.
 		Integer usuarioId = -1;
 		for (Map.Entry<Integer, PaquetePersonaje> personajeConectado : Servidor.getPersonajesConectados().entrySet()) {
-			Servidor.log.append(personajeConectado.getValue().getNombre() + " == " + usuario + "\n");
-
 			if(personajeConectado.getValue().getNombre().equals(usuario)) {
 				usuarioId = personajeConectado.getValue().getId();
 			}
